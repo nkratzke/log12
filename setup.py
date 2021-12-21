@@ -1,7 +1,6 @@
 from setuptools import setup, find_packages
-import log12
 
-VERSION="0.0.1rc3"
+VERSION="0.0.2"
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -13,7 +12,7 @@ setup(
     license='MIT',
     author='Nane Kratzke',
     author_email='nane.kratzke@th-luebeck.de',
-    description='Structured logging, the 12-factor style.',
+    description='Logging for 12-factor apps.',
     long_description_content_type="text/markdown",
     long_description=long_description,
     python_requires=">=3.6,<4.0",
