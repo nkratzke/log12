@@ -1,12 +1,14 @@
 from setuptools import setup, find_packages
 import log12
 
+VERSION="0.0.1+d"
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
     name="log12",
-    version=log12.VERSION,
+    version=VERSION,
     url='https://github.com/nkratzke/log12',
     license='MIT',
     author='Nane Kratzke',

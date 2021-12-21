@@ -2,8 +2,6 @@ import time, uuid, json, string
 from datetime import datetime, timezone
 from secrets import choice
 
-VERSION="0.0.1-c"
-
 class Event:
 
     def __init__(self, logger, event, **kwargs):
@@ -13,8 +11,7 @@ class Event:
             'log_start_ns': time.time_ns(),
             'log_start': datetime.now(timezone.utc).isoformat(),
             'log_event': event,
-            'log_id': uuid.uuid4().hex,
-            'log_child_events': []
+            'log_id': uuid.uuid4().hex
         }
         self.data.update(kwargs)
 
@@ -22,9 +19,7 @@ class Event:
         return self.data['log_id']
 
     def child(self, event, **kwargs):
-        ev = Event(self.data['log_logger'], event, log_parent_id=self.data['log_id'], **kwargs)
-        self.data['log_child_events'].append(ev.id())
-        return ev
+        return Event(self.data['log_logger'], event, log_parent_id=self.data['log_id'], **kwargs)
 
     def __enter__(self):
         return self
@@ -35,7 +30,8 @@ class Event:
         self.info("Completed")
 
     def bind(self, **kwargs):
-        self.data.update(kwargs)
+        if not self.logged:
+            self.data.update(kwargs)
 
     def log(self, result, level, **kwargs):
         if not self.logged:
