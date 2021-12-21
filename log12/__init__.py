@@ -2,7 +2,7 @@ import time, uuid, json, string
 from datetime import datetime, timezone
 from secrets import choice
 
-VERSION="0.0.1-b"
+VERSION="0.0.1-c"
 
 class Event:
 
