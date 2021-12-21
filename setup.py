@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 setup(
     name="log12",
     version=log12.VERSION,
-    url='https://github.com/nkratzke/twista',
+    url='https://github.com/nkratzke/log12',
     license='MIT',
     author='Nane Kratzke',
     author_email='nane.kratzke@th-luebeck.de',
