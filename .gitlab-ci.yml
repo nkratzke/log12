@@ -1,6 +1,6 @@
 image: thlmylab/swakkd:1.23
 
-stages:          # List of stages for jobs, and their order of execution
+stages:
   - build
   - test
   - deploy
@@ -8,7 +8,7 @@ stages:          # List of stages for jobs, and their order of execution
 pypi:
     stage: deploy
     script:
-        - apk add build-base libffi-dev python-dev
+        - apk add build-base libffi-dev
         - pip install twine
         - python setup.py sdist
         - twine upload dist/*
