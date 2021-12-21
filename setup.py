@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import log12
 
-VERSION="0.0.1rc2"
+VERSION="0.0.1rc3"
 
 with open("README.md", "r") as fh:
     long_description = fh.read()

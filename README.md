@@ -1,3 +1,3 @@
 # log12
 
-Structured logging, the 12-factor style.
+Log12 unifies metrics, distributed tracing and text-based event logging in a single and self-contained structured logging library that follows the [12-factor logging recommendation](https://12factor.net/logs) consequently.
