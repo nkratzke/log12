@@ -14,12 +14,15 @@ class Event:
             'log_id': uuid.uuid4().hex
         }
         self.data.update(kwargs)
+        self.children = []
 
     def id(self):
         return self.data['log_id']
 
     def child(self, event, **kwargs):
-        return Event(self.data['log_logger'], event, log_parent_id=self.data['log_id'], **kwargs)
+        ev = Event(self.data['log_logger'], event, log_parent_id=self.data['log_id'], **kwargs)
+        self.children.append(ev)
+        return ev
 
     def __enter__(self):
         return self
@@ -33,8 +36,11 @@ class Event:
         if not self.logged:
             self.data.update(kwargs)
 
-    def log(self, result, level, **kwargs):
+    def log(self, result, level, **kwargs):        
         if not self.logged:
+            for child_event in self.children:
+                child_event.log("Log triggered by parent event", level)
+            
             self.bind(log_result=result, log_level=level, log_end=datetime.now(timezone.utc).isoformat(), **kwargs)
             self.bind(log_duration_ns=time.time_ns() - self.data['log_start_ns'])
             print(json.dumps(self.data))

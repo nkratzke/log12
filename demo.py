@@ -28,3 +28,7 @@ ev.bind(bar="foo")
 child = ev.child("Subevent of Another test", foo="bar")
 child.info("Finished") # <= You are responsible to log child events before the parent event is logged
 ev.info("Finished") # <= You are are responsible to log events explicity
+
+with log.event("Termination test") as ev:
+    with ev.child("Task 1"):
+        ev.error("Stopped")
