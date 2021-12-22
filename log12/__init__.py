@@ -1,6 +1,5 @@
-import time, uuid, json, log12
+import time, uuid, json
 from datetime import datetime, timezone
-from secrets import choice
 
 class Event:
 
@@ -38,34 +37,34 @@ class Event:
             self.error("Failed", log_exception=f"{exception_type} ({exception_value})")
         self.info("Completed")
 
-    def bind(self, **kwargs):
+    def update(self, **kwargs):
         if not self.logged:
             self.data.update(kwargs)
 
-    def log(self, result, level, **kwargs):        
+    def log(self, result : str, level : str, **kwargs):        
         if not self.logged:
             for child_event in self.children:
                 child_event.log("Terminated by parent event", level)
             
             self.data.update(self.globals)
-            self.bind(log_result=result, log_level=level, **kwargs)
-            self.bind(log_duration_ns=time.time_ns() - self.timestamp_ns)
+            self.update(log_result=result, log_level=level, **kwargs)
+            self.update(log_duration_ns=time.time_ns() - self.timestamp_ns)
             print(json.dumps(self.data))
             self.logged = True
 
-    def debug(self, result, **kwargs):
+    def debug(self, result : str, **kwargs):
         self.log(result, "debug", **kwargs)
 
-    def info(self, result, **kwargs):
+    def info(self, result : str, **kwargs):
         self.log(result, "info", **kwargs)
 
-    def warn(self, result, **kwargs):
+    def warn(self, result : str, **kwargs):
         self.log(result, "warn", **kwargs)
 
-    def error(self, result, **kwargs):
+    def error(self, result : str, **kwargs):
         self.log(result, "error", **kwargs)
 
-    def fatal(self, result, **kwargs):
+    def fatal(self, result : str, **kwargs):
         self.log(result, "fatal", **kwargs)
 
 class EventStream:
@@ -77,5 +76,5 @@ class EventStream:
     def event(self, op : str, **kwargs):
         return Event(self.logger, op, self.globals, **kwargs)
 
-def logger(name, **kwargs):
+def logging(name : str, **kwargs):
     return EventStream(name, **kwargs)
