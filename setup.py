@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION="0.0.3a2"
+VERSION="0.0.3"
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -15,6 +15,9 @@ setup(
     description='Logging for 12-factor apps.',
     long_description_content_type="text/markdown",
     long_description=long_description,
-    python_requires=">=3.6,<4.0",
+    python_requires=">=3.7,<4.0",
+    install_requires=[
+          'nanoid'
+    ],
     packages=find_packages()
 )

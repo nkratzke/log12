@@ -1,4 +1,4 @@
-import time, uuid, json, string
+import time, uuid, json, nanoid
 from datetime import datetime, timezone
 from secrets import choice
 
@@ -11,7 +11,7 @@ class Event:
             'log_start_ns': time.time_ns(),
             'log_start': datetime.now(timezone.utc).isoformat(),
             'log_event': event,
-            'log_id': uuid.uuid4().hex
+            'log_id': nanoid.generate()
         }
         self.data.update(kwargs)
         self.children = []
