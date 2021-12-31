@@ -13,9 +13,9 @@ class Event:
             'log_logger': logger,
             'log_start_ns': time.time_ns(),
             'log_start': datetime.now(timezone.utc).isoformat(),
-            'log_event': event,
+            'log_operation': op,
             'log_id': nanoid.generate()
-        }
+        })
         self.data.update(kwargs)
         self.children = []
 
