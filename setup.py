@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION="0.0.5"
+VERSION="0.0.6a"
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -17,7 +17,8 @@ setup(
     long_description=long_description,
     python_requires=">=3.7,<4.0",
     install_requires=[
-          'nanoid'
+          'nanoid',
+          'msgpack'
     ],
     packages=find_packages()
 )

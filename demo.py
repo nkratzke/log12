@@ -1,4 +1,5 @@
 import log12
+import requests
 
 # Creation of a log stream with name "test"
 # Each event and child events of this stream gets k/v pairs 
@@ -7,7 +8,7 @@ import log12
 # These stream-specific k/v pairs can be used to define
 # selection criteria in analytical databases like elasticsearch.
 #
-log = log12.logging("test", general="value", tag="foo")
+log = log12.logging("test", general="value", tag="foo", service_mark="test")
 
 # We can create an event in a log stream like this:
 
@@ -35,8 +36,20 @@ ev.update(bar="foo")
 child = ev.child("Subevent of Another test", foo="bar")
 ev.info("Finished") # <= However, than you are are responsible to log events explicity
 
-with log.event("Termination test") as ev:
-    with ev.child("Task 1"):
+headers = {
+    "foo": "bar",
+    "log_x": "y",
+    "log-trace-id": "just a test"
+}
+
+with log.event("Termination test", extract=headers) as ev:
+
+    # Here is how to pass tracing information along remote calls
+    with ev.child("Task 1") as event:
+        response = requests.get("https://qr.mylab.th-luebeck.dev/route?url=https://google.com", headers=event.inject())
+        event.update(length=len(response.text), status_code=response.status_code)
+
+    with ev.child("Task 2"):
         ev.error("Stopped")
-        # If we log the parent event, this will always implicity
-        # log the the child events automatically.
+        # If we log the parent event, this will implicity
+        # log open child events automatically.
