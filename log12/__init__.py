@@ -22,7 +22,7 @@ class Event:
     def __init__(self, logger : str, op : str, globals : dict, **kwargs):
         self.timestamp_ns = time.time_ns()
         self.logged = False
-        self.data = dict(kwargs)
+        self.data = normalize(kwargs)
         self.globals = normalize(globals)
         self.children = []
         self.data.update({
@@ -32,7 +32,7 @@ class Event:
             OPERATION: op,
             EVENT_ID:  nanoid.generate()
         })
-        self.data.update(normalize(kwargs))
+        #self.data.update(normalize(kwargs))
         self.children = []
 
     def id(self):
